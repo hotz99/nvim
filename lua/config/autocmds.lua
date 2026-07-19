@@ -8,7 +8,7 @@
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
 
 -- Add the project's node_modules/.bin to PATH so workspace-installed binaries
--- (tsgo, oxlint, etc.) are found without global installation.
+-- (tsc, oxlint, etc.) are found without global installation.
 vim.api.nvim_create_autocmd({ "VimEnter", "DirChanged" }, {
   callback = function()
     local nm = vim.fn.finddir("node_modules", vim.fn.getcwd() .. ";")
