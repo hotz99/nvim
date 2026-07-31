@@ -1,14 +1,9 @@
 return {
-  -- LazyVim and nvim-lspconfig still call the native TS LSP config `tsgo`,
-  -- but TypeScript 7 exposes that server through `tsc --lsp --stdio`.
-  -- Resolve the workspace/system `tsc` directly and do not fall back to the old
-  -- `tsgo` binary. Setting mason = false makes LazyVim enable the server
-  -- directly via vim.lsp.enable instead of waiting on mason. Merge so we don't
-  -- clobber the extra's settings or formatting.lua's on_attach.
+  -- Use the workspace TypeScript 7 LSP entrypoint patched by `effect-tsgo patch`.
   {
     "neovim/nvim-lspconfig",
     opts = function(_, opts)
-      local function resolve_tsc(config)
+      local function project_roots(config)
         local candidates = {}
 
         if type(config.root_dir) == "string" and config.root_dir ~= "" then
@@ -33,14 +28,22 @@ return {
 
         table.insert(candidates, vim.fn.getcwd())
 
+        local deduped = {}
         local seen = {}
         for _, candidate in ipairs(candidates) do
           if candidate and candidate ~= "" and not seen[candidate] then
             seen[candidate] = true
-            local local_cmd = vim.fs.joinpath(candidate, "node_modules", ".bin", "tsc")
-            if vim.fn.executable(local_cmd) == 1 then
-              return local_cmd
-            end
+            table.insert(deduped, candidate)
+          end
+        end
+        return deduped
+      end
+
+      local function resolve_ts_lsp(config)
+        for _, root in ipairs(project_roots(config)) do
+          local tsc = vim.fs.joinpath(root, "node_modules", ".bin", "tsc")
+          if vim.fn.executable(tsc) == 1 then
+            return tsc
           end
         end
 
@@ -51,7 +54,7 @@ return {
       opts.servers.tsgo = vim.tbl_deep_extend("force", opts.servers.tsgo or {}, {
         mason = false,
         cmd = function(dispatchers, config)
-          return vim.lsp.rpc.start({ resolve_tsc(config), "--lsp", "--stdio" }, dispatchers)
+          return vim.lsp.rpc.start({ resolve_ts_lsp(config), "--lsp", "--stdio" }, dispatchers)
         end,
       })
     end,
