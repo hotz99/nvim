@@ -2,9 +2,6 @@ return {
   "folke/snacks.nvim",
   opts = {
     gitbrowse = {
-      open = function(url)
-        vim.fn.jobstart({ "open", "-a", "Google Chrome", url }, { detach = true })
-      end,
       config = function(opts, defaults)
         opts.remote_patterns = vim.list_extend({
           { "^git@github%-work:(.+)%.git$", "https://github.com/%1" },
