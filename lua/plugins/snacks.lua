@@ -41,4 +41,21 @@ return {
       },
     },
   },
+  keys = {
+    {
+      "<leader>gR",
+      function()
+        local root = vim.fs.root(0, { ".git" })
+        if not root then
+          vim.notify("Tuicr review requires a Git worktree", vim.log.levels.ERROR)
+          return
+        end
+        Snacks.terminal({ "tuicr", "-r", "origin/main...HEAD" }, {
+          cwd = root,
+          interactive = true,
+        })
+      end,
+      desc = "Review branch against origin/main",
+    },
+  },
 }
