@@ -3,8 +3,6 @@
 -- Add any additional keymaps here
 --
 -- -- File: ~/.config/nvim/lua/config/keymaps.lua (or similar location)
-
--- Bind 'jj' to <Esc> in Insert Mode
 vim.api.nvim_set_keymap("i", "jj", "<Esc>", { noremap = true, silent = true, desc = "Escape with jj" })
 
 vim.keymap.set("n", "<leader>at", function()
@@ -23,9 +21,12 @@ vim.keymap.set("n", "<leader>af", function()
   vim.fn.setreg("+", s)
   vim.notify("Yanked: " .. s)
 end, { desc = "Yank rel path" })
+
 vim.keymap.set("n", "<leader>aF", function()
   -- Format: @{path} (absolute path)
   local s = string.format("@%s", vim.fn.expand("%:p"))
   vim.fn.setreg("+", s)
   vim.notify("Yanked: " .. s)
 end, { desc = "Yank abs path" })
+
+vim.keymap.set("n", "q", "<Nop>", { desc = "Disable macro recording" })
