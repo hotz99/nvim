@@ -1,11 +1,6 @@
 {
   "extras": [
-    "lazyvim.plugins.extras.formatting.prettier",
-    "lazyvim.plugins.extras.lang.clangd",
-    "lazyvim.plugins.extras.lang.json",
-    "lazyvim.plugins.extras.lang.python",
-    "lazyvim.plugins.extras.lang.typescript.tsgo",
-    "lazyvim.plugins.extras.lang.markdown"
+    "lazyvim.plugins.extras.lang.typescript.tsc"
   ],
   "install_version": 8,
   "news": {
