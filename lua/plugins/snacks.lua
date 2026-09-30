@@ -19,27 +19,6 @@ return {
         },
       },
     },
-    picker = {
-      sources = {
-        explorer = {
-          exclude = {
-            "*.aux",
-            "*.fdb_latexmk",
-            "*.fls",
-            "*.log",
-            "*.out",
-            "*.synctex.gz",
-            "*.toc",
-            "*.bbl",
-            "*.bcf",
-            "*.blg",
-            "*.run.xml",
-            "*.lof",
-            "*.lot",
-          },
-        },
-      },
-    },
   },
   keys = {
     {
